@@ -19,7 +19,8 @@ public with sharing class AddPrimaryContactTest {
         Test.startTest();
         System.enqueueJob(apc);
         Test.stopTest();
-
+        System.assertNotEquals(null,accList,'Not null');
+        System.assertEquals(50,[select count() from account where billingstate =: state],'Has 50 Accounts');
 
     }
 }
