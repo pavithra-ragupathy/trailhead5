@@ -1,11 +1,11 @@
 @isTest
-public with sharing class DailyLeadProcessorTest {
+public class DailyLeadProcessorTest {
     public static String CRON_EXP = '0 0 1 * * ?';
     @isTest
     public static void testScheduleJob() {
         List<lead> l = new List<lead>();
         for(Integer i=0;i<200;i++) {
-            l.add(new Lead(Name = 'Lead '+i ));
+            l.add(new Lead(LastName = 'Lead '+i,Company = 'TestCompany' , Status = 'Open - Not Contacted' ));
         }
         insert l;
 
@@ -13,8 +13,7 @@ public with sharing class DailyLeadProcessorTest {
         String jobId = System.schedule('ScheduledApexTest',CRON_EXP, new DailyLeadProcessor());
         Test.stopTest();
         System.assertnotEquals(null,l,'Not null');
-        System.assertEquals(200,[SELECT count() FROM Lead WHERE LeadSource = 'Dreamforce']);
+        System.assertEquals(200,[SELECT count() FROM Lead WHERE LeadSource = 'Dreamforce'],'lead count 200 ');
 
     }
 }
- 
